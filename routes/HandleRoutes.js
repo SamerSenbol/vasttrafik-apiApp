@@ -41,4 +41,28 @@ router.post('/trip', async (req, res, next) => {
     
 });
 
+const token = req.headers.authorization.split(" ")[1]; 
+    const data = req.body;
+    const url = "https://api.vasttrafik.se/bin/rest.exe/v2/trip?" +
+     "originId=" + data.originId +
+     "&destId=" + data.destId + 
+     "&time=" + data.time + 
+     "&searchForArrival=" + data.isDepOrArrTime + 
+     "&date=" + data.date + 
+     "&numTrips=4&needJourneyDetail=0&format=json";
+
+    try {
+        //----------- vasttrafik api call to get trip details -----------
+        const response = await axios.get(url, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        });
+
+        res.json(response.data); 
+
+    } catch (err) 
+    
+    {}
+
 export default router;
