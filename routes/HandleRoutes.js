@@ -63,6 +63,31 @@ const token = req.headers.authorization.split(" ")[1];
 
     } catch (err) 
     
-    {}
+    {
+        if (!err.message.includes("401")) {
+        res.json(err);
+        next(err);
+        return;
+    }
+    try {
+        const new_token_data = await updateToken();
+        const new_token = new_token_data.access_token;
+
+        //----------- vasttrafik api call to get trip details with new token -----------
+        const res_trip = await axios.get(url, {
+            headers: {
+                Authorization: "Bearer " + new_token
+            }
+        });
+
+        let to_send = res_trip.data;       
+        to_send.token = new_token_data;     
+        res.json(to_send);                 
+
+    } catch (err) {
+        res.json(err);
+        next(err);
+    }
+}
 
 export default router;
