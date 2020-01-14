@@ -23,3 +23,22 @@ router.get('/', (req, res, next) => {
         next(err);
     }
 });
+
+/* GET trip details */
+router.post('/trip', async (req, res, next) => {
+    if (!(req.headers.authorization &&
+            req.headers.authorization.split(" ")[0] === 'Bearer')) {
+            
+        const err = {
+            name: "Missing or malformed Authorization",
+            message: "Header should have Authorization as Bearer Token"
+        };
+        next(err); 
+        res.json(err);
+        return;
+    }
+
+    
+});
+
+export default router;
