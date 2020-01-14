@@ -9,6 +9,7 @@
   "author": "Samer Senbol",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.1",
     "express": "^4.17.1",
     "file-system": "^2.2.2",
     "path": "^0.12.7"
