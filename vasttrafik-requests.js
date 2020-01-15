@@ -21,4 +21,19 @@ export default async function updateToken() {
     } catch (err) {
         throw new Error(err);
     }
+    
+    export async function getAllStops(token) {
+        const url = "https://api.vasttrafik.se/bin/rest.exe/v2/location.allstops?format=json";
+        try {
+            //----------- vasttrafik api call to get all stops -----------
+            const res = await axios.get(url, {
+                headers: {
+                    Authorization: "Bearer " + token
+                }
+            });
+            return res.data; //retrun new access_token object
+        } catch (err) {
+            throw new Error(err);
+        }
+
 }
