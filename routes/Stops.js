@@ -2,7 +2,7 @@ import { Router } from 'express';
 import path from "path"; 
 import fs from 'fs';
 import axios from 'axios';
-import updateToken from "../TokenUpdate";                     
+import updateToken from "../vasttrafik-requests";                     
 
 const router = Router();
 

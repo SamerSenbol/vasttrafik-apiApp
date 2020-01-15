@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import updateToken from '../TokenUpdate';
+import updateToken from '../vasttrafik-requests';
 
 
 const router = Router();
