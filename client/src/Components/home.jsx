@@ -13,8 +13,8 @@ class Home extends Component {
               time: "",
               trips: []
         };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+  /*       this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this); */
   }
 
   render() {
@@ -54,7 +54,7 @@ getStops = async () => {
     const res = await fetch('http://localhost:4000/stops');
     const data = await res.json();
     this.setState({ data: data });
-    // console.log(this.state.data);
+    console.log(this.state.data);
 }
       
 componentDidMount() {
