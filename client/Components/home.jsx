@@ -30,6 +30,25 @@ class Home extends Component {
     localStorage.setItem("access_token", data.access_token);
     this.getStops();
 }
+updateStops = async () => {
+    var token = localStorage.getItem("access_token");
+    token = ("Bearer ").concat(token);
+    // console.log(token)
+    const res = await fetch('http://localhost:4000/stops', {
+          method: 'put',
+          headers: new Headers({
+                'Content-Type': 'application/json',
+                "Authorization": token
+          })
+    });
+    const data = await res.json();
+    if (data.token === undefined) {
+          console.log("null");
+    } else {
+          localStorage.setItem("access_token", data.token);
+    }
+    this.getStops();
+}
 }
 
 export default Home;
