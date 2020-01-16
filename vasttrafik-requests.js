@@ -1,11 +1,8 @@
-import axios from 'axios';              
-import client from './credentials';     
-
+import axios from 'axios';            
+import client from './credentials';    
 export default async function updateToken() {
-
     const url_token = "https://api.vasttrafik.se/token";
     try {
-        
         //----------- vasttrafik api call to get new token -----------
         const res_token = await axios.request({
             method: 'post',
@@ -15,13 +12,10 @@ export default async function updateToken() {
             },
             data: `grant_type=client_credentials&client_id=${client.key}&client_secret=${client.secret}`
         });
-
         return res_token.data; 
-
     } catch (err) {
         throw new Error(err);
     }
-
 }
 
 export async function getAllStops(token) {
@@ -33,7 +27,7 @@ export async function getAllStops(token) {
                 Authorization: "Bearer " + token
             }
         });
-        return res.data; 
+        return res.data;
     } catch (err) {
         throw new Error(err);
     }
