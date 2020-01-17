@@ -4,8 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Autosuggest from "react-autosuggest";
 
 class Home extends Component {
-
-  
       constructor(props) {
             super(props);
             this.state = {
@@ -23,7 +21,40 @@ class Home extends Component {
             this.handleChange = this.handleChange.bind(this);
             this.handleSubmit = this.handleSubmit.bind(this);
       }
+      componentDidMount() {
+            this.getToken();
+            this.updateStops();
+      }
 
+      getTrips = async (data) => {
+            try {
+                  const sendind_data = { originId: data.originId, destId: data.destId, date: data.date, time: data.time, isDepOrArrTime: data.isDepOrArrTime }
+                  var token = localStorage.getItem("access_token");
+                  token = ("Bearer ").concat(token);
+                  const res = await fetch('http://localhost:4000/trip', {
+                        method: 'post',
+                        headers: new Headers({
+                              'Content-Type': 'application/json',
+                              "Authorization": token
+                        }),
+                        body: JSON.stringify(sendind_data)
+                  });
+                  const trips = await res.json();
+                  if (trips.TripList.Trip === undefined) {
+                        alert("No routes availible")
+                  } else if (trips.TripList.Trip.length === undefined) {
+                        var arrayy = [];
+                        arrayy.push(trips.TripList.Trip);
+                        this.setState({ trips: arrayy });
+                  }
+                  else {
+                        this.setState({ trips: trips.TripList.Trip });
+                  }
+            }
+            catch (err) {
+                  console.log(err);
+            }
+      }
       handleChange(event) {
             if (event.target.name === "originId" || event.target.name === "destId") {
                   for (var i = 0; i < this.state.data.length; i++) {
@@ -61,11 +92,9 @@ class Home extends Component {
             );
       };
 
-
       onSuggestionsClearRequested = () => {
             this.setState({ suggestions: [] });
       };
-
 
       onFromChange = (event, { newValue }) => {
             this.setState({ from_value: newValue });
@@ -93,8 +122,6 @@ class Home extends Component {
             this.setState({ suggestions: this.getSuggestions(value) });
       };
 
-      
-
       getSuggestionValue = suggestion => suggestion.name;
 
       renderSuggestion = suggestion => (
@@ -110,12 +137,13 @@ class Home extends Component {
                   value: this.state.from_value,
                   onChange: this.onFromChange
             };
-      
+
             const TOinputProps = {
                   placeholder: 'TO',
                   value: this.state.to_value,
                   onChange: this.onTOChange
             };
+
             return (
                   <div>
                         <h1>Travel Schedule</h1><br /><br />
@@ -126,7 +154,7 @@ class Home extends Component {
                                     onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                                     getSuggestionValue={this.getSuggestionValue}
                                     renderSuggestion={this.renderSuggestion}
-                                    inputProps={FrominputProps} 
+                                    inputProps={FrominputProps} // theme={theme} for styling 
                               /><br />
                               To :
                               < Autosuggest suggestions={this.state.suggestions}
@@ -134,7 +162,7 @@ class Home extends Component {
                                     onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                                     getSuggestionValue={this.getSuggestionValue}
                                     renderSuggestion={this.renderSuggestion}
-                                    inputProps={TOinputProps}
+                                    inputProps={TOinputProps} // theme={theme} for styling 
                               /><br />
                               <input type="radio" selected name="isDepOrArrTime" value="1" onChange={this.handleChange} /> Arrival Time
                               <input type="radio" name="isDepOrArrTime" value="0" onChange={this.handleChange} /> Departure Time<br />
@@ -152,80 +180,36 @@ class Home extends Component {
                   </div>
             );
       }
-      
 
-};
+      getToken = async () => {
+            const res = await fetch("http://localhost:5000/token");
+            const data = await res.json();
+            localStorage.setItem("access_token", data.access_token);
+            this.getStops();
+      }
 
- 
-
-  getToken = async () => {
-    const res = await fetch("http://localhost:4000/token");
-    const data = await res.json();
-    // console.log(data.access_token);
-    localStorage.setItem("access_token", data.access_token);
-    this.getStops();
-}
-updateStops = async () => {
-    var token = localStorage.getItem("access_token");
-    token = ("Bearer ").concat(token);
-    // console.log(token)
-    const res = await fetch('http://localhost:4000/stops', {
-          method: 'put',
-          headers: new Headers({
-                'Content-Type': 'application/json',
-                "Authorization": token
-          })
-    });
-    const data = await res.json();
-    if (data.token === undefined) {
-          console.log("null");
-    } else {
-          localStorage.setItem("access_token", data.token);
-    }
-    this.getStops();
-}
-
-getStops = async () => {
-    const res = await fetch('http://localhost:4000/stops');
-    const data = await res.json();
-    this.setState({ data: data });
-    console.log(this.state.data);
-}
-      
-componentDidMount() 
-    this.getToken();
-
-
-
-getTrips = async (data) => {
-      try {
-            const sendind_data = { originId: data.originId, destId: data.destId, date: data.date, time: data.time, isDepOrArrTime: data.isDepOrArrTime }
+      updateStops = async () => {
             var token = localStorage.getItem("access_token");
             token = ("Bearer ").concat(token);
-            const res = await fetch('http://localhost:4000/trip', {
-                  method: 'post',
+            const res = await fetch('http://localhost:4000/stops', {
+                  method: 'put',
                   headers: new Headers({
                         'Content-Type': 'application/json',
                         "Authorization": token
-                  }),
-                  body: JSON.stringify(sendind_data)
+                  })
             });
-            const trips = await res.json();
-            if (trips.TripList.Trip === undefined) {
-                  alert("No routes availible")
-            } else if (trips.TripList.Trip.length === undefined) {
-                  var arrayy = [];
-                  arrayy.push(trips.TripList.Trip);
-                  this.setState({ trips: arrayy });
+            const data = await res.json();
+            if (data.token === undefined) {
+            } else {
+                  localStorage.setItem("access_token", data.token);
             }
-            else {
-                  this.setState({ trips: trips.TripList.Trip });
-            }
+            this.getStops();
       }
-      catch (err) {
-            console.log(err);
+      getStops = async () => {
+            const res = await fetch('http://localhost:4000/stops');
+            const data = await res.json();
+            this.setState({ data: data });
       }
 }
-
 
 export default Home;
