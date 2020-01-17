@@ -1,20 +1,26 @@
 import React, { Component } from 'react';
+import Trips from './displaytrips';
 
 class Home extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-              data: [],
-              originId: "",
-              destId: "",
-              isDepOrArrTime: "",
-              date: "",
-              time: "",
-              trips: []
-        };
-  /*       this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this); */
+  
+      constructor(props) {
+            super(props);
+            this.state = {
+                  data: [],
+                  originId: "none",
+                  destId: "none",
+                  isDepOrArrTime: "",
+                  date: "",
+                  time: "",
+                  trips: [],
+                  suggestions: [],
+                  from_value: "",
+                  to_value: ""
+            };
+            this.handleChange = this.handleChange.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
+      }
   }
 
   render() {
@@ -63,23 +69,34 @@ componentDidMount() {
 
 
 getTrips = async (data) => {
-    // console.log(data)
-    const sendind_data = { originId: "9021014084222000", destId: "9022014018243000", date: "2020-01-18", time: "09:00", isDepOrArrTime: "1" }
-    var token = localStorage.getItem("access_token");
-    token = ("Bearer ").concat(token);
-    const res = await fetch('http://localhost:4000/trip', {
-          method: 'post',
-          headers: new Headers({
-                'Content-Type': 'application/json',
-                "Authorization": token
-          }),
-          body: JSON.stringify(sendind_data)
-    });
-    const trips = await res.json();
-    // console.log(trips.TripList.Trip);
-    this.setState({ trips: trips.TripList.Trip });
+      try {
+            const sendind_data = { originId: data.originId, destId: data.destId, date: data.date, time: data.time, isDepOrArrTime: data.isDepOrArrTime }
+            var token = localStorage.getItem("access_token");
+            token = ("Bearer ").concat(token);
+            const res = await fetch('http://localhost:4000/trip', {
+                  method: 'post',
+                  headers: new Headers({
+                        'Content-Type': 'application/json',
+                        "Authorization": token
+                  }),
+                  body: JSON.stringify(sendind_data)
+            });
+            const trips = await res.json();
+            if (trips.TripList.Trip === undefined) {
+                  alert("No routes availible")
+            } else if (trips.TripList.Trip.length === undefined) {
+                  var arrayy = [];
+                  arrayy.push(trips.TripList.Trip);
+                  this.setState({ trips: arrayy });
+            }
+            else {
+                  this.setState({ trips: trips.TripList.Trip });
+            }
+      }
+      catch (err) {
+            console.log(err);
+      }
 }
-
 }
 
 export default Home;
