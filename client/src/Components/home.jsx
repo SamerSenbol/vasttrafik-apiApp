@@ -23,6 +23,36 @@ class Home extends Component {
             this.handleChange = this.handleChange.bind(this);
             this.handleSubmit = this.handleSubmit.bind(this);
       }
+
+      handleChange(event) {
+            if (event.target.name === "originId" || event.target.name === "destId") {
+                  for (var i = 0; i < this.state.data.length; i++) {
+                        if (this.state.data[i].name === event.target.value) {
+                              this.setState({ [event.target.name]: this.state.data[i].id });
+                              break;
+                        }
+                  }
+            } else if (event.target.name === "date") {
+                  var replaced = event.target.value.replace("-", "/");
+                  var replaceded = replaced.replace("-", "/");
+                  this.setState({ [event.target.name]: replaceded });
+            }
+            else {
+                  this.setState({ [event.target.name]: event.target.value });
+            }
+      }
+
+      handleSubmit = async (event) => {
+            event.preventDefault();
+            if (this.state.originId === "none" || this.state.destId === "none" || this.state.date === "" || this.state.time === "" || this.state.isDepOrArrTime === "") {
+                  alert("Fill complete Values")
+            } else {
+                  console.log(this.state)
+                  await this.getTrips(this.state);
+            }
+      }
+
+
       render() {
 
             const FrominputProps = {
@@ -73,7 +103,8 @@ class Home extends Component {
             );
       }
       
-  };
+
+};
 
  
 
