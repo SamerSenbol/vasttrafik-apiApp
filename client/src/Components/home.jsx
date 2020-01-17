@@ -52,6 +52,56 @@ class Home extends Component {
             }
       }
 
+      getSuggestions = value => {
+            const inputValue = value.trim().toLowerCase();
+            const inputLength = inputValue.length;
+
+            return inputLength === 0 ? [] : this.state.data.filter(station =>
+                  station.name.toLowerCase().slice(0, inputLength) === inputValue
+            );
+      };
+
+
+      onSuggestionsClearRequested = () => {
+            this.setState({ suggestions: [] });
+      };
+
+
+      onFromChange = (event, { newValue }) => {
+            this.setState({ from_value: newValue });
+            for (var i = 0; i < this.state.data.length; i++) {
+                  if (this.state.data[i].name === newValue) {
+                        this.setState({ originId: this.state.data[i].id });
+                        return;
+                  }
+            }
+            this.setState({ originId: newValue });
+      };
+
+      onTOChange = (event, { newValue }) => {
+            this.setState({ to_value: newValue });
+            for (var i = 0; i < this.state.data.length; i++) {
+                  if (this.state.data[i].name === newValue) {
+                        this.setState({ destId: this.state.data[i].id });
+                        return;
+                  }
+            }
+            this.setState({ destId: newValue });
+      };
+
+      onSuggestionsFetchRequested = ({ value }) => {
+            this.setState({ suggestions: this.getSuggestions(value) });
+      };
+
+      
+
+      getSuggestionValue = suggestion => suggestion.name;
+
+      renderSuggestion = suggestion => (
+            <div>
+                  {suggestion.name}
+            </div>
+      );
 
       render() {
 
