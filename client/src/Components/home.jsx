@@ -23,59 +23,60 @@ class Home extends Component {
             this.handleChange = this.handleChange.bind(this);
             this.handleSubmit = this.handleSubmit.bind(this);
       }
-  }
+      render() {
 
-  render() {
-
-      const FrominputProps = {
-            placeholder: 'From',
-            value: this.state.from_value,
-            onChange: this.onFromChange
-      };
-
-      const TOinputProps = {
-            placeholder: 'TO',
-            value: this.state.to_value,
-            onChange: this.onTOChange
-      };
-      return (
-            <div>
-                  <h1>Travel Schedule</h1><br /><br />
-                  <form onSubmit={this.handleSubmit}>
-                        From :
-                        < Autosuggest suggestions={this.state.suggestions}
-                              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                              getSuggestionValue={this.getSuggestionValue}
-                              renderSuggestion={this.renderSuggestion}
-                              inputProps={FrominputProps} 
-                        /><br />
-                        To :
-                        < Autosuggest suggestions={this.state.suggestions}
-                              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                              getSuggestionValue={this.getSuggestionValue}
-                              renderSuggestion={this.renderSuggestion}
-                              inputProps={TOinputProps}
-                        /><br />
-                        <input type="radio" selected name="isDepOrArrTime" value="1" onChange={this.handleChange} /> Arrival Time
-                        <input type="radio" name="isDepOrArrTime" value="0" onChange={this.handleChange} /> Departure Time<br />
-                        <label>Date:</label>
-                        <input type="date" name="date" onChange={this.handleChange} /><br />
-                        <label>Time:</label>
-                        <input type="text" pattern="[0-9]{2}:[0-9]{2}" placeholder="16:00" name="time" onChange={this.handleChange} /><br />
-                        <Button type="submit">Submit</Button>
-                  </form>
+            const FrominputProps = {
+                  placeholder: 'From',
+                  value: this.state.from_value,
+                  onChange: this.onFromChange
+            };
+      
+            const TOinputProps = {
+                  placeholder: 'TO',
+                  value: this.state.to_value,
+                  onChange: this.onTOChange
+            };
+            return (
                   <div>
-                        {
-                              this.state.trips.map((trip) => <Trips data={trip.Leg} />)
-                        }
+                        <h1>Travel Schedule</h1><br /><br />
+                        <form onSubmit={this.handleSubmit}>
+                              From :
+                              < Autosuggest suggestions={this.state.suggestions}
+                                    onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                                    onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                                    getSuggestionValue={this.getSuggestionValue}
+                                    renderSuggestion={this.renderSuggestion}
+                                    inputProps={FrominputProps} 
+                              /><br />
+                              To :
+                              < Autosuggest suggestions={this.state.suggestions}
+                                    onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                                    onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                                    getSuggestionValue={this.getSuggestionValue}
+                                    renderSuggestion={this.renderSuggestion}
+                                    inputProps={TOinputProps}
+                              /><br />
+                              <input type="radio" selected name="isDepOrArrTime" value="1" onChange={this.handleChange} /> Arrival Time
+                              <input type="radio" name="isDepOrArrTime" value="0" onChange={this.handleChange} /> Departure Time<br />
+                              <label>Date:</label>
+                              <input type="date" name="date" onChange={this.handleChange} /><br />
+                              <label>Time:</label>
+                              <input type="text" pattern="[0-9]{2}:[0-9]{2}" placeholder="16:00" name="time" onChange={this.handleChange} /><br />
+                              <Button type="submit">Submit</Button>
+                        </form>
+                        <div>
+                              {
+                                    this.state.trips.map((trip) => <Trips data={trip.Leg} />)
+                              }
+                        </div>
                   </div>
-            </div>
-      );
-}
+            );
+      }
+      
+  };
 
-}
+ 
+
   getToken = async () => {
     const res = await fetch("http://localhost:4000/token");
     const data = await res.json();
@@ -112,7 +113,7 @@ getStops = async () => {
       
 componentDidMount() 
     this.getToken();
-}
+
 
 
 getTrips = async (data) => {
