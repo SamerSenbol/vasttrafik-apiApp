@@ -30,12 +30,15 @@ Token is sent to client side and client side store that token in the localstorag
 # You can start the application by:
 
 - first installing dependency on both client and server side and then by running these commands:
+
  **$ npm install**
 
 - On server execute the following command:
+
 **npm run-script dev**
 
 - On client execute the following command:
+
 **npm start**
 
 # Technologies Used : React.js Node.js Express
