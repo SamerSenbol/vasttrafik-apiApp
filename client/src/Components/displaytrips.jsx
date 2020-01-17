@@ -9,13 +9,12 @@ class Trips extends Component {
       render() {
             return (
                   <div>
-                        <h2>Trip : {this.props.name + 1}</h2>
+                        <h2>Trip</h2>
                         {
                               this.props.data.map(trip =>
                                     <div>
                                           {
                                                 trip.type === "BUS" &&
-
                                                 <div border="1">
                                                       <h4>{trip.type}</h4>
                                                       <p>Name : {trip.name}</p>
