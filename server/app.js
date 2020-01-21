@@ -3,7 +3,7 @@ import stopsRouter from "./routes/Stops";
 import tokenRouter from "./routes/Tokens";
 import tripRouter from "./routes/Trip";
 import cors from 'cors';
-const PORT = 4000;
+const PORT = 5000;
 const app = express();
 app.use(cors());
 app.use(express.json());

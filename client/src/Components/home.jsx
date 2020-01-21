@@ -31,7 +31,7 @@ class Home extends Component {
                   const sendind_data = { originId: data.originId, destId: data.destId, date: data.date, time: data.time, isDepOrArrTime: data.isDepOrArrTime }
                   var token = localStorage.getItem("access_token");
                   token = ("Bearer ").concat(token);
-                  const res = await fetch('http://localhost:4000/trip', {
+                  const res = await fetch('http://localhost:5000/trip', {
                         method: 'post',
                         headers: new Headers({
                               'Content-Type': 'application/json',
@@ -191,7 +191,7 @@ class Home extends Component {
       updateStops = async () => {
             var token = localStorage.getItem("access_token");
             token = ("Bearer ").concat(token);
-            const res = await fetch('http://localhost:4000/stops', {
+            const res = await fetch('http://localhost:5000/stops', {
                   method: 'put',
                   headers: new Headers({
                         'Content-Type': 'application/json',
@@ -206,7 +206,7 @@ class Home extends Component {
             this.getStops();
       }
       getStops = async () => {
-            const res = await fetch('http://localhost:4000/stops');
+            const res = await fetch('http://localhost:5000/stops');
             const data = await res.json();
             this.setState({ data: data });
       }
