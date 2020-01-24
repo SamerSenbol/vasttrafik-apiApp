@@ -29,7 +29,7 @@ Token is sent to client side and client side store that token in the localstorag
 
 # You can start the application by:
 
-- first installing dependency on both client and server side and then by running these commands:
+- first installing dependency on both client and server side by running these commands:
 
  **$ npm install**
 
