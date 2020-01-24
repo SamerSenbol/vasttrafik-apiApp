@@ -31,7 +31,7 @@ Token is sent to client side and client side store that token in the localstorag
 
 - first installing dependency on both client and server side by running these commands:
 
-    **$ npm install**
+    **npm install**
 
 - On server execute the following command:
 
