@@ -31,14 +31,14 @@ Token is sent to client side and client side store that token in the localstorag
 
 - first installing dependency on both client and server side by running these commands:
 
- **$ npm install**
+    **$ npm install**
 
 - On server execute the following command:
 
-**npm run-script dev**
+    **npm run-script dev**
 
 - On client execute the following command:
 
-**npm start**
+    **npm start**
 
-# Technologies Used : React.js Node.js Express
+                                          # Technologies Used : React.js Node.js Express
